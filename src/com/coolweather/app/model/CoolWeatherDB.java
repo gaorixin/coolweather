@@ -1,15 +1,11 @@
 package com.coolweather.app.model;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import com.coolweather.app.db.CoolWeatherOpenHelper;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.provider.SyncStateContract.Columns;
 
 public class CoolWeatherDB {
 
@@ -54,7 +50,7 @@ public class CoolWeatherDB {
 	
 //	从数据库读取所有的省份信息
 	
-	public List<Province> loadProvince(){
+	public List<Province> loadProvinces(){
 		List<Province> list = new ArrayList<Province>();
 		Cursor cursor = db.query("Province", null, null, null, null, null, null);
 		
@@ -67,6 +63,9 @@ public class CoolWeatherDB {
 				list.add(province);
 			} while (cursor.moveToNext());
 			
+		}
+		if (cursor != null){
+			cursor.close();
 		}
 		return list;
 		
@@ -87,7 +86,7 @@ public class CoolWeatherDB {
 	
 //	从数据库读取所有的城市信息
 	
-	public List<City> loadCites(int provinceId){
+	public List<City> loadCities(int provinceId){
 		List<City> list = new ArrayList<City>();
 		Cursor cursor = db.query("City", null, "province_id = ?", new String[]{String.valueOf(provinceId)}, null, null, null);
 		
@@ -102,6 +101,9 @@ public class CoolWeatherDB {
 			} while (cursor.moveToNext());
 			
 		}
+		if (cursor != null){
+			cursor.close();
+		}
 		return list;
 		
 	}
@@ -111,9 +113,9 @@ public class CoolWeatherDB {
 	public void saveCounty(County county){
 		if (county != null) {
 			ContentValues values = new ContentValues();
-			values.put("city_name", county.getCountyName());
-			values.put("city_code", county.getCountyCode());
-			values.put("province_id", county.getCityId());
+			values.put("county_name", county.getCountyName());
+			values.put("county_code", county.getCountyCode());
+			values.put("city_id", county.getCityId());
 			db.insert("County", null, values);
 			
 		}
@@ -123,7 +125,7 @@ public class CoolWeatherDB {
 	
 	public List<County> loadCounties(int cityId){
 		List<County> list = new ArrayList<County>();
-		Cursor cursor = db.query("County", null, "city_id = ?", new String[]{String.valueOf(cityId)}, null, null, null);
+		Cursor cursor = db.query("County", null, "city_id = ?", new String[]{ String.valueOf(cityId) }, null, null, null);
 		
 		if (cursor.moveToFirst()) {
 			do {
@@ -135,6 +137,9 @@ public class CoolWeatherDB {
 				list.add(county);
 			} while (cursor.moveToNext());
 			
+		}
+		if (cursor != null){
+			cursor.close();
 		}
 		return list;
 		
