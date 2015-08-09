@@ -1,5 +1,4 @@
 package com.coolweather.app.util;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -10,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.coolweather.app.model.City;
 import com.coolweather.app.model.CoolWeatherDB;
@@ -90,6 +90,7 @@ public class Utility {
 			String weatherDesp = weatherInfo.getString("weather");
 			String publishTime = weatherInfo.getString("ptime");
 			saveWeatherInfo(context, cityName, weatherCode, temp1, temp2, weatherDesp, publishTime);
+			Log.d("Utility_weahterinfo", temp1 + temp2);
 						
 		} catch (JSONException e) {
 			// TODO: handle exception
@@ -107,7 +108,7 @@ public class Utility {
 		editor.putString("temp2", temp2);
 		editor.putString("weather_desp", weatherDesp);
 		editor.putString("publish_time", publishTime);
-		editor.putString("current_date", sdf.format(new Date(0)));
+		editor.putString("current_date", sdf.format(new java.util.Date()));
 		editor.commit();
 	}
 }
